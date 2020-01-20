@@ -1,0 +1,7 @@
+WANT:
+ - cool distance fields -> 4k is HUGE
+    - Steal wahas menger?
+    - Add moving objects?
+    - Sinefield is kind of cool anyways...
+    - colours?
+ - blending between them -> blend by zcoord, this could look WAY cool.

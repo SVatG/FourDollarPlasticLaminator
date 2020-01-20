@@ -1,0 +1,44 @@
+Normal: return 3.0+sin(p.x+1.5)+p.y+sin(p.z+f);
+Gebogen: return sin(f/10.0)+3.0+sin(p.x+1.5+cos(p.y))+p.y+sin(p.z+f);
+Sidetunnel: return cosh(p.x) - cosh(-p.x) + cosh(sin(p.y)) + sin(p.z+f) + 2.5 + p.y;
+Wobbling tunnel: return cosh(p.x) + sin(f/5.0)*sin(sin(p.y)) + sin(p.z+f) + 2.5 + p.y;
+cubefield: pos.z-=t; pos-=floor(pos); pos-=0.5; return max(max(abs(pos.x),abs(pos.y)),abs(pos.z))-0.3;
+wobblefield: p.z+=f*3.0; p.x+=sin(f)*3.0+sin(p.z); p-=floor(p); p-=0.5; return max(max(abs(p.x),abs(p.y)),abs(p.z))-0.2;
+awesomefield:
+float d(vec3 p,float f) {
+p.z+=f*3.0; 
+p.x+=sin(f)*3.0+sin(p.z)*smoothstep(20.0,0.0,f); 
+p-=floor(p); 
+p-=0.5;
+return max(max(abs(p.x),abs(p.y)),abs(p.z)) -(sin(f/3.0+1.0)+1.3)/8.0;
+}
+renderer:
+uniform float time;
+
+float d(vec3 p,float f) {
+p.z+=f*3.0; 
+p.x+=sin(f)*3.0+sin(p.z)*smoothstep(20.0,0.0,f); 
+p-=floor(p); 
+p-=0.5;
+return max(max(abs(p.x),abs(p.y)),abs(p.z)) -(sin(f/3.0+1.0)+1.3)/8.0;
+}
+void main() {
+  vec3 mc=vec3(0.4,0.0,0.8);
+
+  float f=time;
+
+  vec3 r=normalize(vec3(-4.0+0.01*gl_FragCoord.x,-3.0+0.01*gl_FragCoord.y,10.0));
+  vec3 p=vec3(0,0,-10.0);
+
+  float di=0.5;
+  int mi = 0;
+  int c=0;
+
+  while(di>0.01&&c<500) {
+    di=d(p,f);
+    p=p+r*di;
+    c++;
+  }
+  gl_FragColor.rgb=(mc*c/200.0);
+}
+

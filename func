@@ -1,0 +1,28 @@
+int func(vec3 pos,float stepshift)
+{
+	vec3 v2=abs(fract(pos)-vec3(0.5,0.5,0.5))/2.0;
+	float r=0.0769*sin(t*30.0*-0.0708);
+	float blowup=BLOWUP/pow(2.0,stepshift+8.0);
+
+	if(sum(v2)-0.1445+r<blowup) return 1;
+	v2=vec3(0.25,0.25,0.25)-v2;
+	if(sum(v2)-0.1445-r<blowup) return 2;
+
+	int hue;
+	float width;
+	if(abs(sum(v2)-3.0*r-0.375)<0.03846+blowup)
+	{
+		width=0.1445;
+		hue=4;
+	}
+	else
+	{
+		width=0.0676;
+		hue=3;
+	}
+
+	if(sum(abs(v2.zxy-v2.xyz))-width<blowup) return hue;
+
+	return 0;
+}
+
